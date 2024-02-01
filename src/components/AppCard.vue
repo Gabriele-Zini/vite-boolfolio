@@ -8,8 +8,13 @@ export default {
     props: {
         project: Object,
     },
-    computed:  {
-        
+    computed: {
+        reduceText() {
+            if (this.project.description && this.project.description.length > 15) {
+                return this.project.description.slice(0, 15) + "..."; // so che sarebbe meglio substring, ma metto questo giusto per provare slice
+            }
+            return this.project.description;
+        }
     }
 }
 
@@ -20,7 +25,7 @@ export default {
         <img :src="`${baseUrl}/storage/${project.cover_image}`" class="card-img-top" :alt="project.name">
         <div class="card-body">
             <h5 class="card-title">{{ project.name }}</h5>
-            <p class="card-text">{{ project.description ? project.description : 'No description' }}.</p>
+            <p class="card-text">{{ reduceText }}</p>
         </div>
     </div>
 </template>
