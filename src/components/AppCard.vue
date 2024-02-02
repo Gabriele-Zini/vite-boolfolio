@@ -14,6 +14,15 @@ export default {
                 return this.project.description.slice(0, 15) + "..."; // so che sarebbe meglio substring, ma metto questo giusto per provare slice
             }
             return this.project.description;
+
+        },
+    },
+    methods: {
+        punctuation(index, total) {
+            return index < total - 1 ? ', ' : '.';
+        },
+        getImage(imgPath) {
+            return new URL(`../assets/img/${imgPath}`, import.meta.url).href;
         }
     }
 }
@@ -22,10 +31,21 @@ export default {
 
 <template>
     <div class="card" style="width: 18rem;">
-        <img :src="`${baseUrl}/storage/${project.cover_image}`" class="card-img-top" :alt="project.name">
+        <img :src="!project.cover_image ? getImage('no_Image_Available.jpg') : `${baseUrl}/storage/${project.cover_image}`"
+            class="card-img-top" :alt="project.name">
+
         <div class="card-body">
             <h5 class="card-title">{{ project.name }}</h5>
             <p class="card-text">{{ reduceText }}</p>
+            <div>
+                <span class="fw-bold">Project technologies: </span>
+                <p class="card-text d-inline" v-for="(technology, index) in project.technologies">{{
+                    technology.technology_name }}{{ punctuation(index, project.technologies.length) }}
+                </p>
+            </div>
+            <p class="mt-2"><span class="fw-bold">Project type: </span>{{ project.type.name }}</p>
+            <p><span class="fw-bold">Author:</span> {{ project.user.name }}</p>
+
         </div>
     </div>
 </template>
