@@ -6,18 +6,30 @@ export default {
         return {
             baseUrl: 'http://127.0.0.1:8000',
             projects: [],
+            currentPage: 1,
+            totalPages: 1,
         }
     },
     created() {
-        axios.get(`${this.baseUrl}/api/projects`).then((resp) => {
-            this.projects = resp.data.result.data;
-            console.log(this.projects);
-        })
-
+        this.fetchProjects();
     },
     components: {
         AppCard,
-    }
+    },
+    methods: {
+        fetchProjects() {
+            axios.get(`${this.baseUrl}/api/projects?page=${this.currentPage}`)
+                .then((resp) => {
+                    this.projects = resp.data.result.data;
+                    this.totalPages = resp.data.result.last_page;
+                    console.log(resp.data.result)
+                });
+        },
+        changePage(page) {
+            this.currentPage = page;
+            this.fetchProjects();
+        },
+    },
 
 }
 </script>
@@ -26,12 +38,32 @@ export default {
 <template>
     <main>
         <div class="container my-5">
-            <h1 class="my-5">My projects</h1>
-            <div class="row align-items-center g-3">
-                <div class="col-3" v-for="project in projects" :key="project.id">
-                    <AppCard :project="project" />
+            <h1 class="my-5 text-center">Our projects</h1>
+            <div class="row align-items-center g-5">
+                <div class="col-12 col-md-6 col-lg-4 col-xxl-3 d-flex flex-column align-items-center" v-for="project in projects" :key="project.id">
+                    <AppCard :project="project"/>
                 </div>
             </div>
+
+
+            <nav aria-label="Page navigation" class="my-4">
+                <ul class="pagination">
+                    <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                        <a class="page-link" href="#" aria-label="Previous" @click.prevent="changePage(currentPage - 1)">
+                            Previous<span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" v-for="page in totalPages" :key="page"
+                        :class="{ 'active': currentPage === page }">
+                        <a class="page-link" href="#" @click="changePage(page)">{{ page }}</a>
+                    </li>
+                    <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                        <a class="page-link" href="#" aria-label="Next" @click.prevent="changePage(currentPage + 1)">
+                            Next <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
 
 
