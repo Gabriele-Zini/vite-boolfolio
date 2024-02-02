@@ -1,8 +1,9 @@
 <script>
+import { store } from '../store'
 export default {
     data() {
         return {
-            baseUrl: 'http://127.0.0.1:8000',
+            store,
         }
     },
     props: {
@@ -31,7 +32,7 @@ export default {
 
 <template>
     <div class="card" style="width: 18rem;">
-        <img :src="!project.cover_image ? getImage('no_Image_Available.jpg') : `${baseUrl}/storage/${project.cover_image}`"
+        <img :src="!project.cover_image ? getImage('no_Image_Available.jpg') : `${store.baseUrl}/storage/${project.cover_image}`"
             class="card-img-top" :alt="project.name">
 
         <div class="card-body">
@@ -45,6 +46,7 @@ export default {
             </div>
             <p class="mt-2"><span class="fw-bold">Project type: </span>{{ project.type.name }}</p>
             <p><span class="fw-bold">Author:</span> {{ project.user.name }}</p>
+            <router-link :to="{ name: 'single-project', params: { slug: project.slug } }">details</router-link>
 
         </div>
     </div>
