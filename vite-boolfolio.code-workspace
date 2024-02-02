@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"name": "vite-boolfolio",
+			"path": "."
+		},
+		{
+			"path": "../laravel-api"
+		}
+	],
+	"settings": {}
+}
