@@ -5,7 +5,7 @@ export default {
             links: [
                 {
                     name:'home',
-                    title:'Home',
+                    title:'Projects',
                 },
                 {
                     name:'about',
