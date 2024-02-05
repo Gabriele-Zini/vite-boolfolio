@@ -37,11 +37,12 @@ export default {
             <div class="my-5">
 
                 <span class="fw-bold">Project technologies: </span>
-                <span class="badge fs-6 card-text my-0 mx-1"  :style="{ backgroundColor: technology.hex_color }"  v-for="(technology, index) in singleProject.technologies">{{
+                <span class="badge fs-6 card-text my-0 mx-1"  :style="{ backgroundColor: technology.hex_color }"  v-for="technology in singleProject.technologies">{{
                     technology.technology_name }}
                 </span>
                 <p class="m-0"><span class="fw-bold">Type:</span> {{ singleProject.type.name }}</p>
                 <p class="m-0"><span class="fw-bold">Description:</span> {{ singleProject.description }}</p>
+                <p class="m-0"><span class="fw-bold">Created at:</span> {{ singleProject.created_at }}</p>
             </div>
 
         </div>
